@@ -1,0 +1,608 @@
+@import "tailwindcss";
+
+/* ============================================================
+   N SPACE — Liquid Glass design system
+   Palette and UI font are unchanged from the approved mockup.
+   One addition: a display typeface for headings and wordmark.
+   ============================================================ */
+
+@theme {
+  --color-paper: #eceef3;
+  --color-paper-2: #f5f5f7;
+  --color-ink: #1d1d1f;
+  --color-accent: #fa243c;
+}
+
+:root {
+  --paper: #eceef3;
+  --paper-2: #f5f5f7;
+  --paper-3: #ffffff;
+  --ink: #1d1d1f;
+  --ink-soft: #4a4a4f;
+  --ink-mute: #7b7b82;
+  --ink-faint: #a1a1a6;
+  --accent: #fa243c;
+  --accent-soft: rgba(250, 36, 60, 0.12);
+
+  --tint: #fa243c;
+  --tint-2: #6b5bff;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Segoe UI Variable Display", "Segoe UI", Inter, system-ui, sans-serif;
+  --font-display: "Instrument Serif", "New York", ui-serif, Georgia, serif;
+
+  /* glass material */
+  --glass-bg: rgba(255, 255, 255, 0.58);
+  --glass-bg-strong: rgba(255, 255, 255, 0.74);
+  --glass-bg-weak: rgba(255, 255, 255, 0.38);
+  --glass-stroke: rgba(255, 255, 255, 0.72);
+  --glass-inner: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 18px 48px -20px rgba(16, 22, 40, 0.35),
+    0 2px 10px -4px rgba(16, 22, 40, 0.18);
+  --glass-blur: 26px;
+
+  --spring: cubic-bezier(0.22, 1.18, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --rail: 248px;
+  --panel: 348px;
+  --tabbar-h: 68px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+html.dark {
+  --paper: #08080a;
+  --paper-2: #101014;
+  --paper-3: #17171c;
+  --ink: #f5f5f7;
+  --ink-soft: #d6d6db;
+  --ink-mute: #9a9aa2;
+  --ink-faint: #6e6e76;
+
+  --glass-bg: rgba(30, 30, 36, 0.52);
+  --glass-bg-strong: rgba(38, 38, 45, 0.66);
+  --glass-bg-weak: rgba(24, 24, 29, 0.36);
+  --glass-stroke: rgba(255, 255, 255, 0.16);
+  --glass-inner: rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 22px 60px -24px rgba(0, 0, 0, 0.85),
+    0 2px 12px -6px rgba(0, 0, 0, 0.7);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background: var(--paper);
+  color-scheme: light dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--paper);
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ------------------------------------------------------------
+   Liquid backdrop: living mesh + film grain
+   ------------------------------------------------------------ */
+.liquid-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 12% 0%, #ffffff 0%, transparent 55%),
+    radial-gradient(90% 70% at 100% 0%, #e7e9f3 0%, transparent 60%),
+    linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 55%, #e4e7ef 100%);
+}
+
+html.dark .liquid-stage {
+  background:
+    radial-gradient(120% 90% at 10% 0%, #1b1b24 0%, transparent 58%),
+    radial-gradient(90% 70% at 100% 10%, #16121c 0%, transparent 62%),
+    linear-gradient(180deg, #0b0b0e 0%, #08080a 60%, #060608 100%);
+}
+
+.liquid-blob {
+  position: absolute;
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  will-change: transform;
+  animation: drift 28s var(--ease-out) infinite alternate;
+}
+
+.liquid-blob.b1 {
+  top: -18vmax;
+  left: -10vmax;
+  background: radial-gradient(circle, var(--tint) 0%, transparent 66%);
+  opacity: 0.3;
+}
+.liquid-blob.b2 {
+  bottom: -24vmax;
+  right: -14vmax;
+  background: radial-gradient(circle, var(--tint-2) 0%, transparent 66%);
+  opacity: 0.24;
+  animation-delay: -9s;
+}
+.liquid-blob.b3 {
+  top: 28%;
+  right: 8%;
+  width: 34vmax;
+  height: 34vmax;
+  background: radial-gradient(circle, #ffffff 0%, transparent 68%);
+  opacity: 0.5;
+  animation-delay: -16s;
+}
+html.dark .liquid-blob.b3 {
+  background: radial-gradient(circle, #2a2438 0%, transparent 68%);
+  opacity: 0.5;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4vmax, -3vmax, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-3vmax, 4vmax, 0) scale(0.95);
+  }
+}
+
+.liquid-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html.dark .liquid-grain {
+  opacity: 0.05;
+  mix-blend-mode: screen;
+}
+
+/* ------------------------------------------------------------
+   Glass material
+   ------------------------------------------------------------ */
+.lg {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(185%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(185%);
+  box-shadow:
+    inset 0 0 0 1px var(--glass-stroke),
+    inset 0 1px 0 0 var(--glass-inner),
+    var(--glass-shadow);
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+/* specular sheen — the wet highlight that reads as real glass */
+.lg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.08) 26%,
+      rgba(255, 255, 255, 0) 52%
+    ),
+    radial-gradient(
+      120% 80% at 82% -10%,
+      color-mix(in srgb, var(--tint) 26%, transparent) 0%,
+      transparent 58%
+    );
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+/* bottom inner glow = light bending through the edge */
+.lg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 -1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -14px 24px -18px rgba(255, 255, 255, 0.8);
+  z-index: -1;
+}
+
+html.dark .lg::before {
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.04) 28%,
+      rgba(255, 255, 255, 0) 54%
+    ),
+    radial-gradient(
+      120% 80% at 82% -10%,
+      color-mix(in srgb, var(--tint) 30%, transparent) 0%,
+      transparent 60%
+    );
+  opacity: 0.9;
+}
+
+.lg-strong {
+  background: var(--glass-bg-strong);
+  --glass-blur: 34px;
+}
+.lg-weak {
+  background: var(--glass-bg-weak);
+  --glass-blur: 18px;
+}
+.lg-flat {
+  border-radius: 20px;
+  --glass-blur: 16px;
+}
+.lg-round {
+  border-radius: 9999px;
+}
+.lg-sheet {
+  border-radius: 34px 34px 0 0;
+}
+.lg-panel {
+  border-radius: 30px;
+}
+
+/* tinted glass, driven by artwork colour */
+.lg-tint {
+  background:
+    linear-gradient(
+      140deg,
+      color-mix(in srgb, var(--tint) 16%, var(--glass-bg)) 0%,
+      var(--glass-bg) 62%
+    );
+}
+
+/* ------------------------------------------------------------
+   Interaction feel
+   ------------------------------------------------------------ */
+.press {
+  transition:
+    transform 0.28s var(--spring),
+    box-shadow 0.3s var(--ease-out),
+    background 0.3s var(--ease-out),
+    opacity 0.2s linear;
+  will-change: transform;
+}
+.press:active {
+  transform: scale(0.968);
+}
+@media (hover: hover) {
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-inner),
+      0 28px 60px -26px rgba(16, 22, 40, 0.42);
+  }
+}
+.tap-focus:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------
+   Type
+   ------------------------------------------------------------ */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 0.98;
+}
+.display em {
+  font-style: italic;
+}
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ------------------------------------------------------------
+   Range inputs — Liquid Glass scrubbers
+   ------------------------------------------------------------ */
+input[type="range"].lg-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].lg-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    var(--accent) var(--pct, 0%),
+    rgba(120, 120, 130, 0.24) var(--pct, 0%),
+    rgba(120, 120, 130, 0.24) 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+input[type="range"].lg-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.22),
+    0 0 0 0.5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s var(--spring);
+}
+input[type="range"].lg-range:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+input[type="range"].lg-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(120, 120, 130, 0.24);
+}
+input[type="range"].lg-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+input[type="range"].lg-range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+/* vertical EQ slider */
+.eq-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 22px;
+  height: 118px;
+}
+
+/* ------------------------------------------------------------
+   Equalizer bars
+   ------------------------------------------------------------ */
+@keyframes barPulse {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.eq-bar {
+  transform-origin: bottom;
+  background: currentColor;
+  border-radius: 999px;
+  animation: barPulse 0.9s ease-in-out infinite;
+}
+.eq-paused .eq-bar {
+  animation-play-state: paused;
+  transform: scaleY(0.3);
+}
+
+/* ------------------------------------------------------------
+   Sheets, transitions
+   ------------------------------------------------------------ */
+@keyframes sheetUp {
+  from {
+    transform: translateY(101%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.anim-sheet {
+  animation: sheetUp 0.46s var(--spring) both;
+}
+.anim-fade {
+  animation: fadeIn 0.24s var(--ease-out) both;
+}
+.anim-pop {
+  animation: popIn 0.42s var(--spring) both;
+}
+.anim-slide {
+  animation: slideIn 0.4s var(--spring) both;
+}
+.stagger > * {
+  animation: popIn 0.5s var(--spring) both;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 0.08s;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 0.11s;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 0.14s;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 0.17s;
+}
+.stagger > *:nth-child(7) {
+  animation-delay: 0.2s;
+}
+.stagger > *:nth-child(8) {
+  animation-delay: 0.23s;
+}
+
+/* spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+/* ------------------------------------------------------------
+   App shell layout
+   ------------------------------------------------------------ */
+.app-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100dvh;
+  padding-left: var(--safe-l);
+  padding-right: var(--safe-r);
+}
+
+@media (min-width: 820px) {
+  .app-shell {
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1180px) {
+  .app-shell {
+    grid-template-columns: var(--rail) minmax(0, 1fr) var(--panel);
+  }
+}
+
+.scroll-area {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* Windows / desktop PWA title-bar drag region */
+.titlebar-drag {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+.titlebar-no-drag {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+@supports (app-region: drag) {
+  .pwa-window {
+    padding-top: env(titlebar-area-height, 0px);
+    padding-left: env(titlebar-area-x, 0px);
+    padding-right: calc(100% - env(titlebar-area-width, 100%));
+  }
+}
+
+/* bezel-less artwork glow */
+.art-glow {
+  position: absolute;
+  inset: 8%;
+  border-radius: 40px;
+  filter: blur(38px) saturate(150%);
+  opacity: 0.55;
+  background: var(--tint);
+  transform: translateZ(0);
+}
+
+/* thin glass divider */
+.lg-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(120, 120, 130, 0.22),
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .liquid-blob {
+    animation: none;
+  }
+}
